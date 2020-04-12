@@ -100,12 +100,12 @@ export default class EpisodePlayer extends Component {
         const track = this.props.tracks[this.state.selectedTrack];
         let filter_language = track && track.languages && track.languages.filter((item) => {
             console.warn("asd", item)
-            return item.status === 'completed'
+            return item.language__label === this.state.language
         })
         let available_translations = track && track.languages.filter((item) => {
-            console.warn("asd", item)
             return item.status === 'completed'
         }).map((item) => item.language__label)
+
         let title = filter_language && filter_language[0] && filter_language[0].converted_title || track.title;
         let description = filter_language && filter_language[0] && filter_language[0].converted_text || "N/A";
         const video = this.state.isChanging ? null : (

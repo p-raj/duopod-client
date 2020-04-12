@@ -50,7 +50,7 @@ export default class Home extends Component {
     }
 
     render() {
-        console.warn("asda",this.state.subscribed_channels)
+        // console.warn("asda",this.state.subscribed_channels)
         const open_explore_section = this.state.explore_section;
         const open_subscription_section = this.state.subscription_section;
         let section;
