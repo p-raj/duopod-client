@@ -5,7 +5,7 @@ import Footer from "../utils/Footer";
 import ExploreList from "./ExploreList";
 import MyList from "./MyList";
 import Episodes from "./Episodes";
-
+import axios from 'axios'
 export const TRACKS = [
     {
         title: 'Naval',
@@ -22,7 +22,8 @@ export default class Home extends Component {
             user_id: 3,
             explore_section: false,
             show_episodes: false,
-            subscription_section: false
+            subscription_section: false,
+            subscribed_channels:[]
 
         };
 
@@ -35,12 +36,21 @@ export default class Home extends Component {
         this.setState({explore_section: false, subscription_section: true,show_episodes:false})
     };
 
-    open_episodes = (param) => {
-        this.setState({show_episodes: true})
+    open_episodes = (id) => {
+        console.warn("asdd",id)
+        this.setState({show_episodes: true,channel_id:id})
 
     };
+    componentDidMount(): void {
+    let a=axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/user/3/subscriptions/').then((res)=>{
+        console.warn("as",res)
+        this.setState({subscribed_channels:res.data && res.data.results})
+    })
+
+    }
 
     render() {
+        console.warn("asda",this.state.subscribed_channels)
         const open_explore_section = this.state.explore_section;
         const open_subscription_section = this.state.subscription_section;
         let section;
@@ -49,10 +59,12 @@ export default class Home extends Component {
         } else {
             if (this.state.show_episodes) {
                 section = <View style={{flex: 10}}><Episodes
+                    channel_id={this.state.channel_id}
+                    // Episodes lists
                     tracks={this.props.tracks}
                 /></View>
             } else {
-                section = <MyList open_episodes={this.open_episodes}/>
+                section = <MyList subscribed_channels={this.state.subscribed_channels} open_episodes={this.open_episodes}/> // Subscription lists & episodes===channels
             }
         }
         return (
@@ -78,7 +90,7 @@ export default class Home extends Component {
         );
     }
 }
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 const styles = {
     container: {
         flex: 1,

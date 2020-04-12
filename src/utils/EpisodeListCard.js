@@ -17,12 +17,13 @@ export default class EpisodeListCard extends Component {
     render() {
 
         return (
-            <TouchableOpacity onPress={() => this.open_episode(1)}>
+            <TouchableOpacity onPress={() => this.open_episode(this.props.item.id)}>
                 <View style={{height: 90, margin: 15, borderWidth: 1, borderRadius: 15, padding: 20,backgroundColor: "#eff5f5"}}>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <View style={{flex: 5, flexDirection: 'column'}}>
                             <View style={{flex: 1}}>
-                                <Text style={{fontSize: 24}}>Daily Tech Talk {'\n'}<Text style={{fontSize: 15}}>Creator: Nikhil Gupta</Text></Text>
+                                <Text style={{fontSize: 20}}>{this.props.item &&  this.props.item.title}</Text>
+                                <Text style={{fontSize: 15}}>Creator: Nikhil Gupta</Text>
                             </View>
                         </View>
                         <View style={{flex: 2, flexDirection: 'column'}}>

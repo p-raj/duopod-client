@@ -1,24 +1,13 @@
 import React, {Component} from 'react';
-import {StatusBar, View,} from 'react-native';
-import EpisodeList from '../components/EpisodeList';
+import {Dimensions, StyleSheet, View} from 'react-native';
+import LanguageSelector from "../components/LanguageSelector";
+import {Actions} from "react-native-router-flux";
+import Video from 'react-native-video';
 import TrackDetails from '../components/TrackDetails';
 import SeekBar from '../components/SeekBar';
 import Controls from '../components/Controls';
-import Video from 'react-native-video';
-import {Actions} from "react-native-router-flux";
-import EpisodeDetail from "../components/EpisodeDetail";
 
-
-export const TRACKS = [
-    {
-        title: 'Naval',
-        artist: 'Naval',
-        albumArtUrl: "http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg",
-        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-    },
-];
-
-export default class Home extends Component {
+export default class EpisodePlayer extends Component {
     constructor(props) {
         super(props);
 
@@ -29,8 +18,8 @@ export default class Home extends Component {
             selectedTrack: 0,
             repeatOn: false,
             shuffleOn: false,
+            language:'en'
         };
-
     }
 
     setDuration(data) {
@@ -76,7 +65,7 @@ export default class Home extends Component {
             this.refs.audioElement && this.refs.audioElement.seek(0);
             this.setState({isChanging: true});
             setTimeout(() => this.setState({
-                currentPosimport TrackDetails from "./Home2";ition: 0,
+                currentPosition: 0,
                 totalLength: 1,
                 paused: false,
                 isChanging: false,
@@ -88,45 +77,40 @@ export default class Home extends Component {
     selectEpisode = () => {
     }
 
-    render() {
+    setLanguage=(language)=>{
+        this.setState({language})
+    }
 
+    componentDidMount(): void {
+    }
+
+    render() {
         const track = this.props.tracks[this.state.selectedTrack];
+        // let eng = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/en/naval.mp3"
+        // let ge = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/de/output.mp3"
+
+        let filter_language =track && track.languages && track.languages.filter((item)=>{
+            return item.language__label===this.state.language
+        })
         // console.warn("aa", track.audioUrl)
-        let eng = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/en/naval.mp3"
-        let ge = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/de/output.mp3"
+        console.warn("asd",filter_language && filter_language[0] && filter_language[0].link)
         const video = this.state.isChanging ? null : (
-            <Video source={{uri: this.state.language==='German'?ge: eng}} // Can be a URL or a local file.
+            <Video source={{uri: filter_language && filter_language[0] && filter_language[0].link}} // Can be a URL or a local file.
                    ref="audioElement"
                    paused={this.state.paused}               // Pauses playback entirely.
                    resizeMode="cover"           // Fill the whole screen at aspect ratio.
                    repeat={true}                // Repeat forever.
-                   onLoadStart={this.loadStart} // Callback when video starts to load
+                   onLoadStart={(error)=>{console.warn("asda",error)}   } // Callback when video starts to load
                    onLoad={this.setDuration.bind(this)}    // Callback when video loads
                    onProgress={this.setTime.bind(this)}    // Callback every ~250ms with currentTime
                    onEnd={this.onEnd}           // Callback when playback finishes
-                   onError={this.videoError}    // Callback when video cannot be loaded
+                   onError={(error)=>{console.warn("asda",error)}   } // Callback when video cannot be loaded
                    style={styles.audioElement}/>
         );
-
         return (
             <View style={styles.container}>
-                <StatusBar hidden={false}/>
-                {/*<Header message="Playing From Charts"/>*/}
-                <TrackDetails title={track.title} artist={track.artist}/>
-
-                {!this.state.selectEpisodeKey ? <EpisodeList selectEpisode={() => {
-                        this.setState({
-                            selectEpisodeKey: 10
-                        })
-                    }} episodeList={this.state.episodeList}/>
-                    : <EpisodeDetail selectEpisodeKey={this.state.selectEpisodeKey} startPlay={(id, lan) => {
-                        console.warn("as", id)
-                        this.setState({language:id})
-                    }} stopPlay={(id, lan) => {
-                        console.warn("as", id)
-                        this.setState({language:id})
-
-                    }}/>}
+                <TrackDetails title={track.title} artist={track.creator}/>
+                <LanguageSelector selectEpisodeKey={this.state.selectEpisodeKey} language={this.state.language} setLanguage={this.setLanguage}/>
                 <SeekBar
                     onSeek={this.seek.bind(this)}
                     trackLength={this.state.totalLength}
@@ -139,7 +123,7 @@ export default class Home extends Component {
                     shuffleOn={this.state.shuffleOn}
                     forwardDisabled={this.state.selectedTrack === this.props.tracks.length - 1}
                     onPressShuffle={() => {
-                        Actions.Episodes();
+                        // Actions.Episodes();
                         this.setState({shuffleOn: !this.state.shuffleOn})
                     }}
                     onPressPlay={() => this.setState({paused: false})}
@@ -153,15 +137,39 @@ export default class Home extends Component {
         );
     }
 }
-console.disableYellowBox = true;
-const styles = {
+
+const {width, height} = Dimensions.get('window');
+const imageSize = width;
+
+const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: 'rgb(4,4,4)',
+        paddingLeft: 20,
+        paddingRight: 20,
+        flex: 10,
     },
-    audioElement: {
-        height: 0,
-        width: 0,
+    image: {
+        width: 25,
+        height: 25,
+        // backgroundColor:'red'
+    },
+    item: {
+        color: 'white'
+    },
+    playButton: {
+        height: 20,
+        width: 20,
+        borderWidth: 1,
+        borderColor: 'transparent',
+        borderRadius: 100 / 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    secondaryControl: {
+        height: 18,
+        width: 18,
+    },
+    off: {
+        opacity: 0.30,
     }
-};
+})
 

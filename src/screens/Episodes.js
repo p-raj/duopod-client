@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {FlatList, ScrollView, Text, View} from 'react-native';
 import EpisodeListCard from "../utils/EpisodeListCard";
-import Episode from "./Episode";
+import EpisodePlayer from "./EpisodePlayer";
+import axios from "axios";
+import MyListCard from "../utils/MyListCard";
 
 
 export default class Episodes extends Component {
@@ -19,30 +21,55 @@ export default class Episodes extends Component {
     open_episode = (param) => {
         this.setState({open_episode: true, episode_id: param})
     };
+    componentDidMount(): void {
+        let a=axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions/'+this.props.channel_id+'1/episodes').then((res)=>{
+            console.warn("as",res)
+            // this.setState({episodeList:res.data && res.data.results})
+            this.setState({episodeList:[
+                    {
+                        "id": 1,
+                        "languages": [
+                            {
+                                "language__label": "en",
+                                "link": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                                "converted_title": "Engineering at Slack",
+                                "converted_text": null
+                            }
+                        ],
+                        "title": "Engineering at Slack",
+                        "created_at": "2020-04-12T00:18:37.588663Z",
+                        "duration": 900,
+                        "channel": 1
+                    }
+                ]})
+        })
 
+    }
+
+    open_episode = (param) => {
+        this.setState({open_episode: true, episode_id: param})
+    };
     render() {
-        let tracks = [{
-            title: 'Naval',
-            artist: 'Naval',
-            albumArtUrl: "http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg",
-            audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-        }]
         let open_episode = this.state.open_episode
         let section;
         if (open_episode) {
-            section = <Episode
-                tracks={tracks}
+            section = <EpisodePlayer
+                tracks={this.state.episodeList}
             />
         } else {
             section = <>
                 <Text style={{fontSize: 30, marginLeft: 20, color: "white",alignSelf:'center'}}>Episodes</Text>
-                <ScrollView
-                contentInsetAdjustmentBehavior="automatic">
-                <EpisodeListCard open_episode={this.open_episode}/>
-            </ScrollView>
+                <FlatList
+                    data={this.state.episodeList ||[]}
+                    renderItem={({item}) => {
+                        return (
+                            <EpisodeListCard item={item} open_episode={this.open_episode}/>
+                        )
+                    }}
+                />
                 </>
-        }
 
+        }
         return (
             <View style={{flex: 1, paddingBottom: 40}}>
 
