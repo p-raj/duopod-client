@@ -29,7 +29,7 @@ export default class LanguageSelector extends Component {
                                     }}><View style={{
                                         flex: 1,
                                         flexDirection: 'row',
-                                        height: 40,
+                                        height: 50,
                                         borderBottomWidth: 0.5,
                                         borderColor: 'rgb(228,228,228)'
                                     }}>
@@ -58,7 +58,7 @@ export default class LanguageSelector extends Component {
                                         <View style={{
                                             flex: 1,
                                             flexDirection: 'row',
-                                            height: 40,
+                                            height: 50,
                                             // backgroundColor:'red',
                                             borderBottomWidth: 0.5,
                                             borderColor: 'rgb(228,228,228)'

@@ -98,8 +98,9 @@ export default class EpisodePlayer extends Component {
 
     render() {
         const track = this.props.tracks[this.state.selectedTrack];
+        const id = this.props.tracks[this.state.selectedTrack] && this.props.tracks[this.state.selectedTrack].id;
         let filter_language = track && track.languages && track.languages.filter((item) => {
-            console.warn("asd", item)
+            // console.warn("asd", item)
             return item.language__label === this.state.language
         })
         let available_translations = track && track.languages.filter((item) => {
@@ -116,7 +117,7 @@ export default class EpisodePlayer extends Component {
                 resizeMode="cover"           // Fill the whole screen at aspect ratio.
                 repeat={true}                // Repeat forever.
                 onLoadStart={(error) => {
-                    console.warn("asda", error)
+                    // console.warn("asda", error)
                 }} // Callback when video starts to load
                 onLoad={this.setDuration.bind(this)}    // Callback when video loads
                 onProgress={this.setTime.bind(this)}    // Callback every ~250ms with currentTime
@@ -149,7 +150,18 @@ export default class EpisodePlayer extends Component {
                         // Actions.Episodes();
                         this.setState({shuffleOn: !this.state.shuffleOn})
                     }}
-                    onPressPlay={() => this.setState({paused: false})}
+                    onPressPlay={() => {
+
+                        this.setState({paused: false})
+                        axios.post("https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/add-episode-view/",{
+                            "episode_id":  id,
+                            "user_id" : 1,
+                            "language": this.state.language
+                        }).then(()=>{
+                            console.warn("success")
+
+                        })
+                    }}
                     onPressPause={() => this.setState({paused: true})}
                     onBack={this.onBack.bind(this)}
                     onForward={this.onForward.bind(this)}
