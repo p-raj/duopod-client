@@ -16,7 +16,7 @@ export default class LanguageSelector extends Component {
                     <FlatList
                         data={[
                             {key: 'English', value: 'en'},
-                            {key: 'German', value: 'ge'},
+                            {key: 'German', value: 'de'},
                             {key: 'Spanish', value: 'sp'},
                             {key: 'French', value: 'fc'},
                         ]}
@@ -29,7 +29,7 @@ export default class LanguageSelector extends Component {
                                     <View style={{
                                         flex: 1,
                                         flexDirection: 'row',
-                                        height: 60,
+                                        height: 40,
                                         borderBottomWidth: 0.5,
                                         borderColor: 'rgb(228,228,228)'
                                     }}>
