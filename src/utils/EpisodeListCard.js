@@ -15,6 +15,7 @@ export default class EpisodeListCard extends Component {
 
 
     render() {
+        console.warn("bjk",this.props.item)
 
         return (
             <TouchableOpacity onPress={() => this.open_episode(this.props.item.id)}>
@@ -23,15 +24,15 @@ export default class EpisodeListCard extends Component {
                         <View style={{flex: 5, flexDirection: 'column'}}>
                             <View style={{flex: 1}}>
                                 <Text style={{fontSize: 20}}>{(this.props.item &&  this.props.item.title) || (this.props.item &&  this.props.item.name)}</Text>
-                                <Text style={{fontSize: 15}}>Creator: Nikhil Gupta</Text>
+                                <Text style={{fontSize: 15}}>Creator: {this.props.item && this.props.item.creator}</Text>
                             </View>
                         </View>
-                        <View style={{flex: 2, flexDirection: 'column'}}>
+                        <View style={{flex: 2.5, flexDirection: 'column',backgroundColor:'transparent'}}>
                             <View style={{flex: 3}}>
 
                             </View>
-                            <View style={{flex: 1}}>
-                                <Text><Text style={{fontWeight: 'bold'}}>Duration:</Text>10 M</Text>
+                            <View style={{flex: 2,}}>
+                                <Text>Duration: <Text style={{fontWeight: 'bold'}}>{this.props.item && this.props.item.duration}secs</Text></Text>
                             </View>
                         </View>
                     </View>
@@ -40,6 +41,6 @@ export default class EpisodeListCard extends Component {
         );
     }
 }
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 
 

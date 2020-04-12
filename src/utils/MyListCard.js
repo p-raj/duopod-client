@@ -26,7 +26,7 @@ export default class MyListCard extends Component {
                             </View>
                             <View style={{flex: 1}}>
                                 <View style={{flex: 1}}>
-                                    <Text  numberOfLines={1} adjustFont style={{fontSize: 18}}>{this.props.item.creator || 'sa'}</Text>
+                                    <Text  numberOfLines={1} adjustFont style={{fontSize: 18}}>{this.props.item.creator || 'Gaurav garg'}</Text>
                                 </View>
                             </View>
                         </View>
@@ -35,7 +35,7 @@ export default class MyListCard extends Component {
 
                             </View>
                             <View style={{flex: 1}}>
-                                <Text><Text style={{fontWeight: 'bold'}}>Episodes:</Text> 10</Text>
+                                <Text>Episodes: <Text style={{fontWeight: 'bold'}}>{ this.props.item.episodes}</Text></Text>
                             </View>
                         </View>
                     </View>
