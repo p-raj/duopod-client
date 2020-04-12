@@ -35,7 +35,7 @@ export default class ExploreList extends Component {
                             data={this.state.randomList || []}
                             renderItem={({item}) => {
                                 return (
-                                    <EpisodeListCard item={item}/>
+                                    <EpisodeListCard item={item} open_episodes={this.props.open_episodes}/>
                                 )
                             }}
                         />

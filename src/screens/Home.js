@@ -55,7 +55,7 @@ export default class Home extends Component {
         const open_subscription_section = this.state.subscription_section;
         let section;
         if (open_explore_section) {
-            section = <ExploreList/>
+            section = <ExploreList  open_episodes={this.open_episodes}/>
         } else {
             if (this.state.show_episodes) {
                 section = <View style={{flex: 10}}><Episodes

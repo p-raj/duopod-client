@@ -13,7 +13,6 @@ export default class ExploreListCard extends Component {
     render() {
 
         return (
-            <TouchableOpacity>
                 <View style={{height: 90, margin: 15, borderWidth: 1, borderRadius: 15, padding: 20,backgroundColor: "#eff5f5"}}>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <View style={{flex: 6, flexDirection: 'column'}}>
@@ -32,7 +31,6 @@ export default class ExploreListCard extends Component {
                         </View>
                     </View>
                 </View>
-            </TouchableOpacity>
         );
     }
 }
