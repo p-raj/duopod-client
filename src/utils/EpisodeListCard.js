@@ -22,7 +22,7 @@ export default class EpisodeListCard extends Component {
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <View style={{flex: 5, flexDirection: 'column'}}>
                             <View style={{flex: 1}}>
-                                <Text style={{fontSize: 20}}>{this.props.item &&  this.props.item.title}</Text>
+                                <Text style={{fontSize: 20}}>{(this.props.item &&  this.props.item.title) || (this.props.item &&  this.props.item.name)}</Text>
                                 <Text style={{fontSize: 15}}>Creator: Nikhil Gupta</Text>
                             </View>
                         </View>

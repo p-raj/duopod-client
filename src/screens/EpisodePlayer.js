@@ -92,8 +92,9 @@ export default class EpisodePlayer extends Component {
         let filter_language =track && track.languages && track.languages.filter((item)=>{
             return item.language__label===this.state.language
         })
+        let title= filter_language && filter_language[0] && filter_language[0].converted_title|| track.title;
         // console.warn("aa", track.audioUrl)
-        console.warn("asd",filter_language && filter_language[0] && filter_language[0].link)
+        console.warn("asd",filter_language && filter_language[0] && filter_language[0].link);
         const video = this.state.isChanging ? null : (
             <Video source={{uri: filter_language && filter_language[0] && filter_language[0].link}} // Can be a URL or a local file.
                    ref="audioElement"
@@ -109,7 +110,7 @@ export default class EpisodePlayer extends Component {
         );
         return (
             <View style={styles.container}>
-                <TrackDetails title={track.title} artist={track.creator}/>
+                <TrackDetails title={title} artist={track.creator}/>
                 <LanguageSelector selectEpisodeKey={this.state.selectEpisodeKey} language={this.state.language} setLanguage={this.setLanguage}/>
                 <SeekBar
                     onSeek={this.seek.bind(this)}

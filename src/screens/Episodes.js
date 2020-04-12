@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, ScrollView, Text, View} from 'react-native';
+import {FlatList,ActivityIndicator, ScrollView, Text, View} from 'react-native';
 import EpisodeListCard from "../utils/EpisodeListCard";
 import EpisodePlayer from "./EpisodePlayer";
 import axios from "axios";
@@ -22,8 +22,15 @@ export default class Episodes extends Component {
         this.setState({open_episode: true, episode_id: param})
     };
     componentDidMount(): void {
-        let a=axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions/'+this.props.channel_id+'1/episodes').then((res)=>{
+        this.setState({
+            loading:true
+        })
+        let a=axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions/'+this.props.channel_id+'1/episodes')
+            .then((res)=>{
             console.warn("as",res)
+            this.setState({
+                loading:false
+            })
             // this.setState({episodeList:res.data && res.data.results})
             this.setState({episodeList:[
                     {
@@ -32,7 +39,7 @@ export default class Episodes extends Component {
                             {
                                 "language__label": "en",
                                 "link": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-                                "converted_title": "Engineering at Slack",
+                                "converted_title": "Engineering ssat Slack",
                                 "converted_text": null
                             }
                         ],
@@ -42,7 +49,11 @@ export default class Episodes extends Component {
                         "channel": 1
                     }
                 ]})
-        })
+        }).catch(()=>{
+                this.setState({
+                    loading:false
+                })
+            })
 
     }
 
@@ -72,8 +83,7 @@ export default class Episodes extends Component {
         }
         return (
             <View style={{flex: 1, paddingBottom: 40}}>
-
-                {section}
+                {this.state.loading?<ActivityIndicator size={'large'} style={{paddingTop:100}} color={'white'}/>:section}
             </View>
         );
     }

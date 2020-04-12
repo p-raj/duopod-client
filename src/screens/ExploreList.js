@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from 'react-native';
-import ExploreListCard from "../utils/ExploreListCard";
+import {ActivityIndicator, FlatList, Text, View} from 'react-native';
+import axios from "axios";
+import EpisodeListCard from "../utils/EpisodeListCard";
 
 export default class ExploreList extends Component {
     constructor(props) {
@@ -10,23 +11,40 @@ export default class ExploreList extends Component {
 
     }
 
+    componentDidMount(): void {
+        this.setState({loading: true})
+        let a = axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions')
+            .then((res) => {
+                console.warn("as", res)
+                this.setState({
+                    loading: false, randomList: res.data.results
+                })
+            })
+    }
+
     render() {
 
         return (
             <View style={{paddingBottom: 40}}>
-                <Text style={{fontSize: 30, marginLeft: 20}}>Explore</Text>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic">
-                    <ExploreListCard/>
-                    <ExploreListCard/>
-                    <ExploreListCard/>
-                    <ExploreListCard/>
-                    <ExploreListCard/>
-                </ScrollView>
+                {this.state.loading
+                    ? <ActivityIndicator size={'large'} color={'white'} style={{paddingTop: 40}}/>
+                    :
+                    <View><Text
+                        style={{fontSize: 30, marginLeft: 20, color: 'white', alignSelf: 'center'}}>Explore</Text>
+                        <FlatList
+                            data={this.state.randomList || []}
+                            renderItem={({item}) => {
+                                return (
+                                    <EpisodeListCard item={item}/>
+                                )
+                            }}
+                        />
+                    </View>
+                }
             </View>
         );
     }
 }
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 
 
