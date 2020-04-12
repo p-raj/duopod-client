@@ -17,7 +17,7 @@ export default class MyList extends Component {
                 <Text style={{fontSize: 30, marginLeft: 20}}>Your Subscriptions</Text>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic">
-                    <MyListCard/>
+                    <MyListCard open_episode={this.props.open_episodes}/>
                     <MyListCard/>
                 </ScrollView>
             </View>

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
+import EpisodeListCard from "../utils/EpisodeListCard";
+import Episode from "./Episode";
 
 
 export default class Episodes extends Component {
@@ -7,92 +9,45 @@ export default class Episodes extends Component {
         super(props);
 
         this.state = {
-
+            episode_list: [],
+            open_episode: false,
+            episode_id: null
         };
     }
 
 
-    render() {
-        return (
-            <View style={styles.container}>
+    open_episode = (param) => {
+        this.setState({open_episode: true, episode_id: param})
+    };
 
-                <View style={styles.container}>
-                    <FlatList
-                        data={[
-                            {key: 'Devin'},
-                            {key: 'Dan'},
-                            {key: 'Dominic'},
-                            {key: 'Jackson'},
-                            {key: 'James'},
-                            {key: 'Joel'},
-                            {key: 'John'},
-                            {key: 'Jillian'},
-                            {key: 'Jimmy'},
-                            {key: 'Julie'},
-                        ]}
-                        renderItem={({item}) => {
-                            return (
-                                <View style={{flex: 1,flexDirection:'row', height: 100, borderBottomWidth: 0.5, borderColor: 'rgb(228,228,228)'}}>
-                                    <View style={{flex:3,justifyContent:'center'}}>
-                                        <Text style={styles.item}>{item.key}</Text>
-                                        <Text style={styles.item}>{item.description}</Text>
-                                    </View>
-                                    <View style={{flex:1,justifyContent:'center'}}>
-                                        {item.key==='true' ?
-                                            <TouchableOpacity onPress={() => {
-                                            }}>
-                                                <View style={styles.playButton}>
-                                                    <Image style={styles.image} source={require('../img/ic_pause_white_48pt.png')}/>
-                                                </View>
-                                            </TouchableOpacity> :
-                                            <TouchableOpacity onPress={() => {
-                                            }}>
-                                                <View style={styles.playButton}>
-                                                    <Image style={styles.image} source={require('../img/ic_play_arrow_white_48pt.png')}/>
-                                                </View>
-                                            </TouchableOpacity>
-                                        }</View>
-                                </View>)
-                        }}
-                    />
-                </View>
+    render() {
+        let tracks = [{
+            title: 'Naval',
+            artist: 'Naval',
+            albumArtUrl: "http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg",
+            audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        }]
+        let open_episode = this.state.open_episode
+        let section;
+        if (open_episode) {
+            section = <Episode
+                tracks={tracks}
+            />
+        } else {
+            section = <ScrollView
+                contentInsetAdjustmentBehavior="automatic">
+                <EpisodeListCard open_episode={this.open_episode}/>
+            </ScrollView>
+        }
+
+        return (
+            <View style={{flex: 1, paddingBottom: 40}}>
+                <Text style={{fontSize: 30, marginLeft: 20, color: "white"}}>Daily Tech News</Text>
+                {section}
             </View>
         );
     }
 }
 
-const {width, height} = Dimensions.get('window');
-const imageSize = width ;
 
-const styles = StyleSheet.create({
-    container: {
-        paddingLeft: 20,
-        paddingRight: 20,
-        flex: 10,
-    },
-    image: {
-        width: 25,
-        height: 25,
-        // backgroundColor:'red'
-    },
-    item: {
-        color: 'white'
-    },
-    playButton: {
-        height: 20,
-        width: 20,
-        borderWidth: 1,
-        borderColor: 'transparent',
-        borderRadius: 100 / 2,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    secondaryControl: {
-        height: 18,
-        width: 18,
-    },
-    off: {
-        opacity: 0.30,
-    }
-})
 

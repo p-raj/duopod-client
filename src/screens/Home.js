@@ -3,7 +3,8 @@ import {StatusBar, View} from 'react-native';
 import Header from "../utils/Header";
 import Footer from "../utils/Footer";
 import ExploreList from "./ExploreList";
-import Episode from "./Episode";
+import MyList from "./MyList";
+import Episodes from "./Episodes";
 
 export default class Home extends Component {
     constructor(props) {
@@ -11,7 +12,9 @@ export default class Home extends Component {
 
         this.state = {
             user_id: 3,
-            explore_section: false
+            explore_section: false,
+            show_episodes: false,
+
         };
 
     }
@@ -20,6 +23,10 @@ export default class Home extends Component {
         this.setState({explore_section: param})
     };
 
+    open_episodes = (param) => {
+        this.setState({show_episodes: true})
+
+    };
 
     render() {
         const open_explore_section = this.state.explore_section;
@@ -27,9 +34,26 @@ export default class Home extends Component {
         if (open_explore_section) {
             section = <ExploreList/>
         } else {
-            section = <Episode
+            section = <MyList open_episodes={this.open_episodes}/>
+        }
+
+        let show_episodes = this.state.show_episodes;
+        let section2;
+        if (show_episodes) {
+            section2 = <View style={{flex: 10}}><Episodes
                 tracks={this.props.tracks}
-            />
+            /></View>
+        } else {
+            section2 = <View style={{flex: 10}}>
+                <View style={{flex: 9}}>
+                    {section}
+                </View>
+                <View style={{flex: 1}}>
+                    <Footer
+                        open_explore_section={this.open_explore_section}
+                    />
+                </View>
+            </View>
         }
         return (
             <View style={styles.container}>
@@ -41,16 +65,7 @@ export default class Home extends Component {
                         font_family={"Cochin"}
                     />
                 </View>
-                <View style={{flex: 10}}>
-                    <View style={{flex: 9}}>
-                        {section}
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Footer
-                            open_explore_section={this.open_explore_section}
-                        />
-                    </View>
-                </View>
+                {section2}
 
             </View>
         );
