@@ -44,6 +44,6 @@ export default class MyListCard extends Component {
         );
     }
 }
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 
 

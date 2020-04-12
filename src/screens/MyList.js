@@ -27,6 +27,6 @@ export default class MyList extends Component {
         );
     }
 }
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 
 

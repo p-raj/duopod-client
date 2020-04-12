@@ -90,7 +90,7 @@ export default class Home extends Component {
         );
     }
 }
-console.disableYellowBox = false;
+console.disableYellowBox = true;
 const styles = {
     container: {
         flex: 1,

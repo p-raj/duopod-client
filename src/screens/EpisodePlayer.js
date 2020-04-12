@@ -11,11 +11,12 @@ export default class EpisodePlayer extends Component {
     constructor(props) {
         super(props);
 
+        console.warn("assssss",this.props.index)
         this.state = {
             paused: true,
             totalLength: 1,
-            currentPosition: 0,
-            selectedTrack: 0,
+            currentPosition:  this.props.index,
+            selectedTrack: this.props.index,
             repeatOn: false,
             shuffleOn: false,
             language: 'en'
@@ -97,6 +98,8 @@ export default class EpisodePlayer extends Component {
     }
 
     render() {
+        console.warn("assssss",this.props.index)
+
         const track = this.props.tracks[this.state.selectedTrack];
         const id = this.props.tracks[this.state.selectedTrack] && this.props.tracks[this.state.selectedTrack].id;
         let filter_language = track && track.languages && track.languages.filter((item) => {

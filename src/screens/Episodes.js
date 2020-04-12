@@ -25,7 +25,10 @@ export default class Episodes extends Component {
         this.setState({
             loading: true
         })
-        let a = axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions/1/episodes')
+        console.warn("asd22", this.props.channel_id)
+        let temp = this.props.channel_id
+        console.warn("as", temp)
+        let a = axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions/' + this.props.channel_id + '/episodes')
             .then((res) => {
                 console.warn("as", res)
                 this.setState({
@@ -44,7 +47,20 @@ export default class Episodes extends Component {
     }
 
     open_episode = (param) => {
-        this.setState({open_episode: true, episode_id: 2})
+        console.warn("lsir",this.state.episodeList)
+        console.warn("saparams",param)
+        let index = 0;
+        this.state.episodeList.map((item, i) => {
+            console.warn("item.key",item.id)
+            if ( item.id==param) {
+                console.warn("item+key",item.id)
+
+                index=i
+            }
+        })
+        console.warn("saasindexads",index)
+
+        this.setState({open_episode: true, episode_id: param, index: index})
     };
 
     render() {
@@ -52,6 +68,7 @@ export default class Episodes extends Component {
         let section;
         if (open_episode) {
             section = <EpisodePlayer
+                index={this.state.index}
                 tracks={this.state.episodeList}
             />
         } else {
