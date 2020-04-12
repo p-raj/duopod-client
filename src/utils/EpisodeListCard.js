@@ -18,7 +18,7 @@ export default class EpisodeListCard extends Component {
         console.warn("bjk",this.props.item)
 
         return (
-            <TouchableOpacity onPress={() => this.open_episode(this.props.item.id)}>
+            <TouchableOpacity onPress={() =>{}}>
                 <View style={{height: 90, margin: 15, borderWidth: 1, borderRadius: 15, padding: 20,backgroundColor: "#eff5f5"}}>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <View style={{flex: 5, flexDirection: 'column'}}>
