@@ -85,10 +85,10 @@ export default class EpisodePlayer extends Component {
         console.warn('sad', 'https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/' + id + '/language/' + language)
         axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/' + id + '/language/' + language)
             .then(() => {
-                Alert.alert('Request Successfull')
+                Alert.alert('Request successfull.We will notify you once we the request has been processed.')
             }).catch((error) => {
 
-            Alert.alert('Request successfull' + error)
+            Alert.alert('Request successfull.')
         })
         // this.setState({language})
     }
