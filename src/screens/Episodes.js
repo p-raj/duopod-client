@@ -34,15 +34,18 @@ export default class Episodes extends Component {
                 tracks={tracks}
             />
         } else {
-            section = <ScrollView
+            section = <>
+                <Text style={{fontSize: 30, marginLeft: 20, color: "white",alignSelf:'center'}}>Episodes</Text>
+                <ScrollView
                 contentInsetAdjustmentBehavior="automatic">
                 <EpisodeListCard open_episode={this.open_episode}/>
             </ScrollView>
+                </>
         }
 
         return (
             <View style={{flex: 1, paddingBottom: 40}}>
-                <Text style={{fontSize: 30, marginLeft: 20, color: "white"}}>Daily Tech News</Text>
+
                 {section}
             </View>
         );

@@ -8,6 +8,16 @@ import Video from 'react-native-video';
 import {Actions} from "react-native-router-flux";
 import EpisodeDetail from "../components/EpisodeDetail";
 
+
+export const TRACKS = [
+    {
+        title: 'Naval',
+        artist: 'Naval',
+        albumArtUrl: "http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg",
+        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    },
+];
+
 export default class Home extends Component {
     constructor(props) {
         super(props);

@@ -14,24 +14,24 @@ export default class EpisodeDetail extends Component {
     stopPlay=(value)=>{
         console.warn("a",value)
     }
+    setLanguage
     render() {
         return (
             <View style={styles.container}>
-                <Text style={[styles.item,{paddingHorizontal:10}]}>You can listen this podcast in following languages</Text>
+                <Text style={[styles.item,{padding:10}]}>Select language</Text>
                 <View style={styles.container}>
                     <FlatList
                         data={[
-                            {key: 'English'},
-                            {key: 'German'},
-                            {key: 'Spanish'},
-                            {key: 'French'},
+                            {key: 'English',value:'en'},
+                            {key: 'German',value:'ge'},
+                            {key: 'Spanish',value:'sp'},
+                            {key: 'French',value:'fc'},
                         ]}
                         renderItem={({item}) => {
                             return (
-                                <View style={{flex: 1,flexDirection:'row', height: 100, borderBottomWidth: 0.5, borderColor: 'rgb(228,228,228)'}}>
+                                <View style={{flex: 1,flexDirection:'row', height: 60, borderBottomWidth: 0.5, borderColor: 'rgb(228,228,228)'}}>
                                     <View style={{flex:5,justifyContent:'center'}}>
                                         <Text style={styles.item}>{item.key}</Text>
-                                        <Text style={styles.item}>{item.description}</Text>
                                     </View>
                                     <View style={{flex:1,justifyContent:'center'}}>
                                         {item.key==='true' ?
@@ -39,7 +39,7 @@ export default class EpisodeDetail extends Component {
                                                 this.props.startPlay(item.key)
                                             }}>
                                                 <View style={styles.playButton}>
-                                                    <Image style={styles.image} source={require('../img/ic_pause_white_48pt.png')}/>
+                                                    <Image style={styles.image} source={require('../img/check.png')}/>
                                                 </View>
                                             </TouchableOpacity> :
                                             <TouchableOpacity onPress={() => {
@@ -47,7 +47,7 @@ export default class EpisodeDetail extends Component {
 
                                             }}>
                                                 <View style={styles.playButton}>
-                                                    <Image style={styles.image} source={require('../img/ic_play_arrow_white_48pt.png')}/>
+                                                    <Image style={styles.image} source={require('../img/check.png')}/>
                                                 </View>
                                             </TouchableOpacity>
                                         }</View>
@@ -70,14 +70,16 @@ const styles = StyleSheet.create({
         flex: 10,
     },
     image: {
-        width: 25,
-        height: 25,
+        width: 15,
+        height: 15,
         // backgroundColor:'red'
     },
     item: {
         color: 'white',
         fontWeight:'400',
-        fontSize:20
+        fontSize:20,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     playButton: {
         height: 20,

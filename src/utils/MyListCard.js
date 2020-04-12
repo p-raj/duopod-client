@@ -22,7 +22,12 @@ export default class MyListCard extends Component {
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <View style={{flex: 6, flexDirection: 'column'}}>
                             <View style={{flex: 1}}>
-                                <Text style={{fontSize: 24}}>Daily Tech Talk {'\n'}<Text style={{fontSize: 15}}>Creator: Nikhil Gupta</Text></Text>
+                                <Text  numberOfLines={1} adjustFont style={{fontSize: 20}}>{this.props.item.key}</Text>
+                            </View>
+                            <View style={{flex: 1}}>
+                                <View style={{flex: 1}}>
+                                    <Text  numberOfLines={1} adjustFont style={{fontSize: 18}}>{this.props.item.creator || 'sa'}</Text>
+                                </View>
                             </View>
                         </View>
                         <View style={{flex: 2, flexDirection: 'column'}}>
