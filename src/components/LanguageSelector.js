@@ -8,25 +8,25 @@ export default class LanguageSelector extends Component {
 
         this.state = {};
     }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text style={[styles.item, {padding: 10}]}>Switch language</Text>
+                <Text style={[styles.item, {padding: 10, alignSelf: 'center'}]}>Switch language</Text>
                 <View style={styles.container}>
                     <FlatList
                         data={[
-                            {key: 'English', value: 'en'},
-                            {key: 'German', value: 'fr'},
-                            {key: 'Spanish', value: 'sp'},
-                            {key: 'French', value: 'de'},
+                            {key: 'English', value: 'en',id:1},
+                            {key: 'German', value: 'de',id:2},
+                            {key: 'French', value: 'fr',id:3},
+                            {key: 'Hindi', value: 'hi',id:4},
                         ]}
                         renderItem={({item}) => {
-                            return (
-                                <TouchableOpacity onPress={() => {
-                                    this.props.setLanguage(item.value)
-                                }}>
-
-                                    <View style={{
+                            if (this.props.available_translations.indexOf(item.value) > -1) {
+                                return (
+                                    <TouchableOpacity onPress={() => {
+                                        this.props.setLanguage(item.value)
+                                    }}><View style={{
                                         flex: 1,
                                         flexDirection: 'row',
                                         height: 40,
@@ -39,7 +39,8 @@ export default class LanguageSelector extends Component {
                                         <View style={{flex: 1, justifyContent: 'center'}}>
                                             {item.value === this.props.language ?
                                                 <View style={styles.playButton}>
-                                                    <Image style={styles.image} source={require('../img/check.png')}/>
+                                                    <Image style={styles.image}
+                                                           source={require('../img/check.png')}/>
                                                 </View>
                                                 :
                                                 <View style={styles.playButton}>
@@ -47,7 +48,31 @@ export default class LanguageSelector extends Component {
                                                 </View>
                                             }</View>
                                     </View>
-                                </TouchableOpacity>)
+                                    </TouchableOpacity>)
+                            } else {
+                                return (
+                                    <TouchableOpacity onPress={() => {
+                                        this.props.requestTranslation(item.id)
+                                    }}>
+
+                                        <View style={{
+                                            flex: 1,
+                                            flexDirection: 'row',
+                                            height: 40,
+                                            // backgroundColor:'red',
+                                            borderBottomWidth: 0.5,
+                                            borderColor: 'rgb(228,228,228)'
+                                        }}>
+                                            <View style={{flex: 1.5, justifyContent: 'center'}}>
+                                                <Text style={styles.item}>{item.key}</Text>
+                                            </View>
+                                            <View style={{flex: 1, justifyContent: 'center'}}>
+                                                    <Text style={{color: 'white'}}>Request translation</Text>
+
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>)
+                            }
                         }}
                     />
                 </View>
@@ -61,9 +86,11 @@ const imageSize = width;
 
 const styles = StyleSheet.create({
     container: {
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 15,
+        paddingRight: 15,
         flex: 10,
+        borderColor: 'white',
+        // borderTopWidth: 0.5
     },
     image: {
         width: 15,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Image, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {StyleSheet, Text, View,} from 'react-native';
 
 const TrackDetails = ({
                           title,
@@ -8,23 +8,17 @@ const TrackDetails = ({
                           onAddPress,
                           onMorePress,
                           onTitlePress,
+                          description,
                           onArtistPress,
                       }) => (
     <View style={styles.container}>
-        {/*<TouchableOpacity onPress={onAddPress}>*/}
-        {/*    <Image style={styles.button}*/}
-        {/*           source={require('../img/ic_add_circle_outline_white.png')}/>*/}
-        {/*</TouchableOpacity>*/}
         <View style={styles.detailsWrapper}>
             <Text style={styles.title} onPress={onTitlePress}>{title} - {artist}</Text>
-            {/*<Text style={styles.artist} onPress={onArtistPress}>{artist}</Text>*/}
         </View>
-        {/*<TouchableOpacity onPress={onMorePress}>*/}
-        {/*    <View style={styles.moreButton}>*/}
-        {/*        <Image style={styles.moreButtonIcon}*/}
-        {/*               source={require('../img/ic_more_horiz_white.png')}/>*/}
-        {/*    </View>*/}
-        {/*</TouchableOpacity>*/}
+
+        <View style={{height: 100, flex: 1, paddingHorizontal: 20,}}>
+            <Text style={styles.subTitle} onPress={onTitlePress}>Description - {description || 'NA'}</Text>
+        </View>
     </View>
 );
 
@@ -32,23 +26,27 @@ export default TrackDetails;
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 24,
-        paddingBottom: 24,
-        flexDirection: 'row',
-        paddingLeft: 20,
-        alignItems: 'center',
-        paddingRight: 20,
+        flex: 10,
+
     },
     detailsWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1,
+        flex: 0.5,
+        flexDirection: 'row',
+
     },
     title: {
-        fontSize: 22,
+        fontSize: 25,
         fontWeight: 'bold',
         color: 'white',
         textAlign: 'center',
+    },
+    subTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'rgba(255,255,255,0.9)',
+        textAlign: 'left',
     },
     artist: {
         color: 'rgba(255, 255, 255, 0.72)',

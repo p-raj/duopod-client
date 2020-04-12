@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, Alert,View} from 'react-native';
 import LanguageSelector from "../components/LanguageSelector";
 import Video from 'react-native-video';
 import TrackDetails from '../components/TrackDetails';
 import SeekBar from '../components/SeekBar';
 import Controls from '../components/Controls';
-
+import axios from 'axios'
 export default class EpisodePlayer extends Component {
     constructor(props) {
         super(props);
@@ -79,19 +79,31 @@ export default class EpisodePlayer extends Component {
     setLanguage = (language) => {
         this.setState({language})
     }
+    requestTranslation = (language) => {
+        const id = this.props.tracks[this.state.selectedTrack] &&  this.props.tracks[this.state.selectedTrack].id;
+        console.warn('sad','https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/'+id+'/language/'+language)
+        axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/'+id+'/language/'+language)
+            .then(()=>{
+            Alert.alert('Request Successfull')
+        }).catch((error)=>{
+
+            Alert.alert('Request successfull'+error)
+        })
+        // this.setState({language})
+    }
 
     componentDidMount(): void {
     }
 
     render() {
         const track = this.props.tracks[this.state.selectedTrack];
-        // let eng = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/en/naval.mp3"
-        // let ge = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/de/output.mp3"
         let filter_language = track && track.languages && track.languages.filter((item) => {
             console.warn("asd", item)
             return item.language__label === this.state.language
         })
+        let available_translations= track && track.languages.map((item)=>item.language__label)
         let title = filter_language && filter_language[0] && filter_language[0].converted_title || track.title;
+        let description = filter_language && filter_language[0] && filter_language[0].converted_description || track.description;
         const video = this.state.isChanging ? null : (
             <Video
                 source={{uri: filter_language && filter_language[0] && filter_language[0].link}} // Can be a URL or a local file.
@@ -112,8 +124,11 @@ export default class EpisodePlayer extends Component {
         );
         return (
             <View style={styles.container}>
-                <TrackDetails title={title} artist={track.creator}/>
-                <LanguageSelector selectEpisodeKey={this.state.selectEpisodeKey} language={this.state.language}
+                <TrackDetails title={title} artist={track.creator} description={description}/>
+                <LanguageSelector requestTranslation={this.requestTranslation}
+                                  selectEpisodeKey={this.state.selectEpisodeKey}
+                                  available_translations={available_translations}
+                                  language={this.state.language}
                                   setLanguage={this.setLanguage}/>
                 <SeekBar
                     onSeek={this.seek.bind(this)}
