@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Dimensions, StyleSheet, Alert,View} from 'react-native';
+import {Alert, Dimensions, StyleSheet, View} from 'react-native';
 import LanguageSelector from "../components/LanguageSelector";
 import Video from 'react-native-video';
 import TrackDetails from '../components/TrackDetails';
 import SeekBar from '../components/SeekBar';
 import Controls from '../components/Controls';
 import axios from 'axios'
+
 export default class EpisodePlayer extends Component {
     constructor(props) {
         super(props);
@@ -80,14 +81,14 @@ export default class EpisodePlayer extends Component {
         this.setState({language})
     }
     requestTranslation = (language) => {
-        const id = this.props.tracks[this.state.selectedTrack] &&  this.props.tracks[this.state.selectedTrack].id;
-        console.warn('sad','https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/'+id+'/language/'+language)
-        axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/'+id+'/language/'+language)
-            .then(()=>{
-            Alert.alert('Request Successfull')
-        }).catch((error)=>{
+        const id = this.props.tracks[this.state.selectedTrack] && this.props.tracks[this.state.selectedTrack].id;
+        console.warn('sad', 'https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/' + id + '/language/' + language)
+        axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/request-language-translation/' + id + '/language/' + language)
+            .then(() => {
+                Alert.alert('Request Successfull')
+            }).catch((error) => {
 
-            Alert.alert('Request successfull'+error)
+            Alert.alert('Request successfull' + error)
         })
         // this.setState({language})
     }
@@ -99,11 +100,14 @@ export default class EpisodePlayer extends Component {
         const track = this.props.tracks[this.state.selectedTrack];
         let filter_language = track && track.languages && track.languages.filter((item) => {
             console.warn("asd", item)
-            return item.language__label === this.state.language
+            return item.status === 'completed'
         })
-        let available_translations= track && track.languages.map((item)=>item.language__label)
+        let available_translations = track && track.languages.filter((item) => {
+            console.warn("asd", item)
+            return item.status === 'completed'
+        }).map((item) => item.language__label)
         let title = filter_language && filter_language[0] && filter_language[0].converted_title || track.title;
-        let description = filter_language && filter_language[0] && filter_language[0].converted_description || track.description;
+        let description = filter_language && filter_language[0] && filter_language[0].converted_text || "N/A";
         const video = this.state.isChanging ? null : (
             <Video
                 source={{uri: filter_language && filter_language[0] && filter_language[0].link}} // Can be a URL or a local file.
