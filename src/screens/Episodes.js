@@ -25,38 +25,13 @@ export default class Episodes extends Component {
         this.setState({
             loading: true
         })
-        let a = axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions/' + this.props.channel_id + '1/episodes')
+        let a = axios.get('https://tq2dnljnk8.execute-api.us-east-1.amazonaws.com/dev/subscriptions/1/episodes')
             .then((res) => {
                 console.warn("as", res)
                 this.setState({
                     loading: false
                 })
-                let temp = res.data && res.data.results || []
-                if(temp.length<1){
-                    temp=[
-                        {
-                            "id": 1,
-                            "languages": [
-                                {
-                                    "language__label": "en",
-                                    "link": "https://duopod.s3.ap-south-1.amazonaws.com/1/1/en/naval.mp3",
-                                    "converted_title": "Engineering sat Slack",
-                                    "converted_text": null
-                                },
-                                {
-                                    "language__label": "de",
-                                    "link": "https://duopod.s3.ap-south-1.amazonaws.com/1/1/de/output.mp3",
-                                    "converted_title": " Glück ist Frieden in Bewegung",
-                                    "converted_text": null
-                                }
-                            ],
-                            "title": "Engineering at Slack",
-                            "created_at": "2020-04-12T00:18:37.588663Z",
-                            "duration": 900,
-                            "channel": 1
-                        }
-                    ]
-                }
+                let temp = res.data && res.data.results
                 this.setState({
                     episodeList: temp
                 })
@@ -69,7 +44,7 @@ export default class Episodes extends Component {
     }
 
     open_episode = (param) => {
-        this.setState({open_episode: true, episode_id: param})
+        this.setState({open_episode: true, episode_id: 2})
     };
 
     render() {

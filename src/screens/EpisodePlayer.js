@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import LanguageSelector from "../components/LanguageSelector";
-import {Actions} from "react-native-router-flux";
 import Video from 'react-native-video';
 import TrackDetails from '../components/TrackDetails';
 import SeekBar from '../components/SeekBar';
@@ -18,7 +17,7 @@ export default class EpisodePlayer extends Component {
             selectedTrack: 0,
             repeatOn: false,
             shuffleOn: false,
-            language:'en'
+            language: 'en'
         };
     }
 
@@ -77,7 +76,7 @@ export default class EpisodePlayer extends Component {
     selectEpisode = () => {
     }
 
-    setLanguage=(language)=>{
+    setLanguage = (language) => {
         this.setState({language})
     }
 
@@ -88,30 +87,34 @@ export default class EpisodePlayer extends Component {
         const track = this.props.tracks[this.state.selectedTrack];
         // let eng = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/en/naval.mp3"
         // let ge = "https://duopod.s3.ap-south-1.amazonaws.com/1/1/de/output.mp3"
-
-        let filter_language =track && track.languages && track.languages.filter((item)=>{
-            return item.language__label===this.state.language
+        let filter_language = track && track.languages && track.languages.filter((item) => {
+            console.warn("asd", item)
+            return item.language__label === this.state.language
         })
-        let title= filter_language && filter_language[0] && filter_language[0].converted_title|| track.title;
-        // console.warn("aa", track.audioUrl)
-        console.warn("asd",filter_language && filter_language[0] && filter_language[0].link);
+        let title = filter_language && filter_language[0] && filter_language[0].converted_title || track.title;
         const video = this.state.isChanging ? null : (
-            <Video source={{uri: filter_language && filter_language[0] && filter_language[0].link}} // Can be a URL or a local file.
-                   ref="audioElement"
-                   paused={this.state.paused}               // Pauses playback entirely.
-                   resizeMode="cover"           // Fill the whole screen at aspect ratio.
-                   repeat={true}                // Repeat forever.
-                   onLoadStart={(error)=>{console.warn("asda",error)}   } // Callback when video starts to load
-                   onLoad={this.setDuration.bind(this)}    // Callback when video loads
-                   onProgress={this.setTime.bind(this)}    // Callback every ~250ms with currentTime
-                   onEnd={this.onEnd}           // Callback when playback finishes
-                   onError={(error)=>{console.warn("asda",error)}   } // Callback when video cannot be loaded
-                   style={styles.audioElement}/>
+            <Video
+                source={{uri: filter_language && filter_language[0] && filter_language[0].link}} // Can be a URL or a local file.
+                ref="audioElement"
+                paused={this.state.paused}               // Pauses playback entirely.
+                resizeMode="cover"           // Fill the whole screen at aspect ratio.
+                repeat={true}                // Repeat forever.
+                onLoadStart={(error) => {
+                    console.warn("asda", error)
+                }} // Callback when video starts to load
+                onLoad={this.setDuration.bind(this)}    // Callback when video loads
+                onProgress={this.setTime.bind(this)}    // Callback every ~250ms with currentTime
+                onEnd={this.onEnd}           // Callback when playback finishes
+                onError={(error) => {
+                    console.warn("asda", error)
+                }} // Callback when video cannot be loaded
+                style={styles.audioElement}/>
         );
         return (
             <View style={styles.container}>
                 <TrackDetails title={title} artist={track.creator}/>
-                <LanguageSelector selectEpisodeKey={this.state.selectEpisodeKey} language={this.state.language} setLanguage={this.setLanguage}/>
+                <LanguageSelector selectEpisodeKey={this.state.selectEpisodeKey} language={this.state.language}
+                                  setLanguage={this.setLanguage}/>
                 <SeekBar
                     onSeek={this.seek.bind(this)}
                     trackLength={this.state.totalLength}

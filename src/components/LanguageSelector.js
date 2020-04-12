@@ -16,9 +16,9 @@ export default class LanguageSelector extends Component {
                     <FlatList
                         data={[
                             {key: 'English', value: 'en'},
-                            {key: 'German', value: 'de'},
+                            {key: 'German', value: 'fr'},
                             {key: 'Spanish', value: 'sp'},
-                            {key: 'French', value: 'fc'},
+                            {key: 'French', value: 'de'},
                         ]}
                         renderItem={({item}) => {
                             return (
